@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+
 import Input from '../common/Input';
+import {createProject} from '../../store/actions/projectActions';
 
 class CreateProject extends Component {
 	constructor() {
@@ -20,7 +23,7 @@ class CreateProject extends Component {
 
 	onFormSubmit(e) {
 		e.preventDefault();
-		console.log(this.state);
+		this.props.createProject(this.state);
 	}
 
 	render() {
@@ -60,4 +63,4 @@ class CreateProject extends Component {
 	}
 }
 
-export default CreateProject;
+export default connect(null, {createProject})(CreateProject);

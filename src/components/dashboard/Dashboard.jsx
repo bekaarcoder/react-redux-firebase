@@ -13,9 +13,7 @@ class Dashboard extends Component {
 					<h2>Dashboard</h2>
 					<div className="row mt-4">
 						<div className="col-md-7">
-							{projects && projects.map((project) => (
-								<ProjectList project={project} key={project.id} />
-							))}
+							<ProjectList projects={projects} />
 						</div>
 						<div className="col-md-5">
 							<Notifications />
