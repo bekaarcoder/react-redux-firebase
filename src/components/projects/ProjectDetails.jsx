@@ -1,19 +1,43 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {firestoreConnect} from 'react-redux-firebase';
+import formatDate from '../helpers/formatDate';
 
 const ProjectDetails = (props) => {
-	console.log(props);
+  const {project} = props;
   return (
     <div className="row">
-    	<div className="col-md-12 mt-5">
-    		<h3 className="mb-4">Project Title {props.match.params.id}</h3>
-    		<p className="lead mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, pariatur placeat non aperiam, quos impedit minima. Alias dolore neque earum repudiandae nostrum, excepturi, odio ut deleniti enim quos, hic optio?
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero, ratione. Porro quae consequuntur sed nulla sapiente eveniet officia, officiis optio ipsum dolores totam itaque, repellendus, voluptatum, nemo! Nam, incidunt, eos!</p>
-				<hr />
-				<div className="text-muted">Posted By Shashank</div>
-				<div className="text-muted">13th November, 2018</div>
-    	</div>
+        {project ? (
+          <div className="col-md-12 mt-5">
+        		<h3 className="mb-4">{project.title}</h3>
+        		<p className="lead mb-4">{project.content}</p>
+    				<hr />
+    				<div className="text-muted">Posted By {`${project.authorFirstName} ${project.authorLastName}`}</div>
+    				<div className="text-muted">{formatDate(project.createdAt)}</div>
+          </div>
+          ) : (
+            <div className="col-md-12 mt-5">
+              <p>Loading Project...</p>
+            </div>
+          )
+        }
     </div>
   )
 }
 
-export default ProjectDetails;
+const mapStateToProps = (state, ownProps) => {
+  const projectId = ownProps.match.params.id;
+  const projects = state.firestore.data.projects;
+  const project = projects ? projects[projectId] : null
+  return {
+    project: project
+  };
+}
+
+export default compose(
+  connect(mapStateToProps, {}),
+  firestoreConnect([{
+    collection: 'projects'
+  }])
+)(ProjectDetails);

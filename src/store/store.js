@@ -15,7 +15,7 @@ const store = createStore(
 	composeEnhancers(
 		applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
 		reduxFirestore(fbConfig),
-		reactReduxFirebase(fbConfig)
+		reactReduxFirebase(fbConfig, {attachAuthIsReady: true})
 	)
 );
 
