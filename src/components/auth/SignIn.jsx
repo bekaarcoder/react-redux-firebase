@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
 import {loginUser} from '../../store/actions/authActions';
 import Input from '../common/Input';
@@ -27,7 +28,13 @@ class SignIn extends Component {
 	}
 
 	render() {
-		const authError = this.props.authError;
+		const {authError, auth} = this.props;
+
+		if(auth.uid) {
+			return (
+				<Redirect to='/' />
+			)
+		}
 		return (
 			<div className="row justify-content-center mt-5">
 				<div className="col-md-6">
@@ -69,7 +76,8 @@ class SignIn extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		authError: state.auth.authError
+		authError: state.auth.authError,
+		auth: state.firebase.auth
 	}
 }
 

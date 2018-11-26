@@ -1,4 +1,8 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
+
+import {registerUser} from '../../store/actions/authActions';
 import Input from '../common/Input';
 
 class SignUp extends Component {
@@ -23,10 +27,17 @@ class SignUp extends Component {
 
 	onFormSubmit(e) {
 		e.preventDefault();
-		console.log(this.state);
+		this.props.registerUser(this.state);
 	}
 
 	render() {
+		const {auth, authError} = this.props;
+
+		if(auth.uid) {
+			return (
+				<Redirect to='/' />
+			)
+		}
 		return (
 			<div className="row justify-content-center mt-5">
 				<div className="col-md-6">
@@ -42,6 +53,7 @@ class SignUp extends Component {
 									onChange={this.onChange}
 									value={this.state.fname}
 									autoComplete="nope"
+									error={authError ? authError.fname : null}
 								/>
 								<Input
 									type="text"
@@ -51,6 +63,7 @@ class SignUp extends Component {
 									onChange={this.onChange}
 									value={this.state.lname}
 									autoComplete="nope"
+									error={authError ? authError.lname : null}
 								/>
 								<Input
 									type="text"
@@ -60,6 +73,7 @@ class SignUp extends Component {
 									onChange={this.onChange}
 									value={this.state.email}
 									autoComplete="nope"
+									error={authError ? authError.email : null}
 								/>
 								<Input
 									type="password"
@@ -68,6 +82,7 @@ class SignUp extends Component {
 									label="Password"
 									onChange={this.onChange}
 									value={this.state.password}
+									error={authError ? authError.password : null}
 								/>
 								<Input
 									type="password"
@@ -76,6 +91,7 @@ class SignUp extends Component {
 									label="Repeat Password"
 									onChange={this.onChange}
 									value={this.state.repeatPassword}
+									error={authError ? authError.repeatPassword : null}
 								/>
 								<div className="text-center">
 									<button className="btn btn-primary" type="submit">Submit</button>
@@ -89,4 +105,11 @@ class SignUp extends Component {
 	}
 }
 
-export default SignUp;
+const mapStateToProps = (state) => {
+	return {
+		auth: state.firebase.auth,
+		authError: state.auth.authError
+	}
+}
+
+export default connect(mapStateToProps, {registerUser})(SignUp);

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import SignedInLinks from './SignedInLinks';
@@ -19,7 +19,7 @@ const Navbar = (props) => {
 				  <div className="collapse navbar-collapse" id="navbarSupportedContent">
 				    <ul className="navbar-nav mr-auto">
 				      <li className="nav-item active">
-				        <Link to="/" className="nav-link">Ideas</Link>
+				        <NavLink to="/" className="nav-link">Ideas</NavLink>
 				      </li>
 				    </ul>
 				    {auth.uid ? <SignedInLinks /> : <SignedOutLinks />}				    

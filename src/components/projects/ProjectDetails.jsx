@@ -1,11 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import {compose} from 'redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import formatDate from '../helpers/formatDate';
 
 const ProjectDetails = (props) => {
-  const {project} = props;
+  const {project, auth} = props;
+
+  if(!auth.uid) {
+    return (
+      <Redirect to='/signin' />
+    )
+  }
   return (
     <div className="row">
         {project ? (
@@ -31,7 +38,8 @@ const mapStateToProps = (state, ownProps) => {
   const projects = state.firestore.data.projects;
   const project = projects ? projects[projectId] : null
   return {
-    project: project
+    project: project,
+    auth: state.firebase.auth
   };
 }
 

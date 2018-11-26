@@ -7,7 +7,8 @@ const Input = ({
 	placeholder,
 	onChange,
 	value,
-	autoComplete
+	autoComplete,
+	error
 }) => {
   return (
     <div className="form-group">
@@ -18,9 +19,14 @@ const Input = ({
 				placeholder={placeholder}
 				onChange={onChange}
 				value={value}
-				className="form-control"
+				className={"form-control " + (error && "is-invalid")}
 				autoComplete={autoComplete}
 			/>
+			{error && (
+				<div className="invalid-feedback">
+					{error}
+				</div>
+			)}
 		</div>
   )
 }

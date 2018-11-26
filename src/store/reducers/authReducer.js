@@ -2,7 +2,9 @@ import {
 	LOGIN_SUCCESS,
 	LOGIN_ERROR,
 	LOGOUT_SUCCESS,
-	LOGOUT_ERROR
+	LOGOUT_ERROR,
+	SIGNUP_ERROR,
+	SIGNUP_SUCCESS
 } from '../actions/types';
 
 const initialState = {
@@ -29,6 +31,17 @@ const authReducer = (state = initialState, action) => {
 		case LOGOUT_ERROR:
 			console.log(action.payload);
 			return state;
+		case SIGNUP_SUCCESS:
+			console.log('user added');
+			return {
+				...state,
+				authError: null
+			}
+		case SIGNUP_ERROR:
+			return {
+				...state,
+				authError: action.payload
+			}
 		default:
 			return state;
 	}
