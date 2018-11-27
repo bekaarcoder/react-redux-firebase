@@ -1,14 +1,10 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {Redirect} from 'react-router-dom';
 
-class Profile extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
+class Profile extends Component {
 	render() {
 		const {user, auth} = this.props;
 		if(!auth.uid) {

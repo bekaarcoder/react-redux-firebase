@@ -23,10 +23,11 @@ class CreateProject extends Component {
 
 	onFormSubmit(e) {
 		e.preventDefault();
-		this.props.createProject(this.state);
+		this.props.createProject(this.state, this.props.history);
 	}
 
 	render() {
+		console.log(this.props);
 		return (
 			<div className="row justify-content-center mt-5">
 				<div className="col-md-6">

@@ -1,17 +1,21 @@
 import {CREATE_PROJECT} from './types';
 
-export const createProject = (project) => {
+export const createProject = (project, history) => {
 	return(dispatch, getState, {getFirestore, getFirebase}) => {
 		const firestore = getFirestore();
 
+		const firstName = getState().firebase.profile.isEmpty ? 'Anonymous' : getState().firebase.profile.firstName;
+		const lastName = getState().firebase.profile.isEmpty ? 'User' : getState().firebase.profile.lastName;
+		const uid = getState().firebase.auth.uid;
+
 		firestore.collection('projects').add({
 			...project,
-			authorFirstName: 'Bruce',
-			authorLastName: 'Lee',
+			authorFirstName: firstName,
+			authorLastName: lastName,
 			createdAt: new Date(),
-			authorId: 12345
+			authorId: uid
 		}).then((ref) => {
-			console.log("Ref ID added: ", ref.id);
+			history.push('/');
 			dispatch({
 				type: CREATE_PROJECT,
 				payload: project
